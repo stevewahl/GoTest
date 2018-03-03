@@ -16,7 +16,7 @@ package main
 import (
 	"fmt"
 	"os"
-	hashpass "github.com/stevewahl/JumpCloud-coding-test/pwhashutil"
+	hashpass "github.com/stevewahl/GoTest/pwhashutil"
 )
 
 func main() {

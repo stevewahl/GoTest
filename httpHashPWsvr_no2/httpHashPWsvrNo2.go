@@ -24,7 +24,7 @@ import (
     "log"
     "net/http"
     "time"
-    passhash "github.com/stevewahl/JumpCloud-coding-test/pwhashutil"
+    passhash "github.com/stevewahl/GoTest/pwhashutil"
 )
 
 // hashPostReq -- POST response handler to password hash request 

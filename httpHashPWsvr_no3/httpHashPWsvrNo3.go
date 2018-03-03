@@ -27,7 +27,7 @@ import (
     "log"
     "net/http"
     "time"
-    passhash "github.com/stevewahl/JumpCloud-coding-test/pwhashutil"
+    passhash "github.com/stevewahl/GoTest/pwhashutil"
     "sync"
 )
 
