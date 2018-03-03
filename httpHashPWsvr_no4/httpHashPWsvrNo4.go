@@ -65,13 +65,13 @@ func hashpostreq(rw http.ResponseWriter, req *http.Request) {
     mut.Unlock()
     if done {
         log.Println("Server not accepting new requests at this time.")
-        http.Error(rw, "Server not accepting new connections at this time.", 
+        http.Error(rw, "Server not accepting new connections at this time.",
                    http.StatusGone)
         return
     }
     // ensure that this is a POST request
     if req.Method != "POST" {
-        http.Error(rw,"ERROR in request to /hash. Must be POST", 
+        http.Error(rw,"ERROR in request to /hash. Must be POST",
                    http.StatusBadRequest)
         log.Println("non POST method given to /hash request: " + req.Method)
         return
@@ -94,11 +94,11 @@ func hashpostreq(rw http.ResponseWriter, req *http.Request) {
         // as per instruction, sleep 5 seconds, generate and store the hashed password
         time.Sleep(5000 * time.Millisecond)
         hashmap[mapCurIndex] = passhash.HashifyPW(pw)
-        log.Println("clear passwod: " + pw + " key: ", mapCurIndex, 
+        log.Println("clear passwod: " + pw + " key: ", mapCurIndex,
                     "hashed password: " + hashmap[mapCurIndex])
     } else {
         log.Println("ERROR in body of POST request.")
-        http.Error(rw, "expecting body of: \"password=<string>\"", 
+        http.Error(rw, "expecting body of: \"password=<string>\"",
                    http.StatusBadRequest)
         return
     }
@@ -120,7 +120,7 @@ func shutsetreq(rw http.ResponseWriter, req *http.Request) {
     req.ParseForm()
     flusher, _ := rw.(http.Flusher)
     if req.Method != "PUT" {
-        http.Error(rw, "ERROR in request to /shutdown. Must be PUT", 
+        http.Error(rw, "ERROR in request to /shutdown. Must be PUT",
                    http.StatusBadRequest)
         log.Println("non PUT method given to /shutdown request: " + req.Method)
         return
@@ -134,7 +134,7 @@ func shutsetreq(rw http.ResponseWriter, req *http.Request) {
     cnt := reqcnt
     cntmut.Unlock()
     if cnt == 0 {
-        http.Error(rw, "Server no longer accepting new requests and exiting.", 
+        http.Error(rw, "Server no longer accepting new requests and exiting.",
                    http.StatusGone)
         flusher.Flush()
         log.Println("Password server exiting")
@@ -142,7 +142,7 @@ func shutsetreq(rw http.ResponseWriter, req *http.Request) {
         os.Exit(0)
     }
     log.Println("Server not accepting new requests at this time.")
-    http.Error(rw, "Server is now no longer accepting new requests.", 
+    http.Error(rw, "Server is now no longer accepting new requests.",
                http.StatusGone)
 }
 

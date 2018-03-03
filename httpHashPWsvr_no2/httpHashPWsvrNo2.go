@@ -31,7 +31,8 @@ import (
 func hashpostreq(rw http.ResponseWriter, req *http.Request) {
     req.ParseForm()
     if req.Method != "POST" {
-        http.Error(rw,"ERROR in request to /hash. Must be POST", 400)
+        http.Error(rw,"ERROR in request to /hash. Must be POST",
+                   http.StatusBadRequest)
         log.Println("non POST method given to /hash request: " + req.Method)
         return
     }
@@ -43,7 +44,8 @@ func hashpostreq(rw http.ResponseWriter, req *http.Request) {
         fmt.Fprint(rw, pwhash, "\n")
     } else {
         log.Println("ERROR in body of POST request.")
-        http.Error(rw, "expecting body of: \"password=<string>\"", 400)
+        http.Error(rw, "expecting body of: \"password=<string>\"",
+                   http.StatusBadRequest)
     }
 }
 

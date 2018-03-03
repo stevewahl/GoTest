@@ -52,13 +52,13 @@ func hashpostreq(rw http.ResponseWriter, req *http.Request) {
     mut.Unlock()
     if done {
         log.Println("Server not accepting new requests at this time.")
-        http.Error(rw, "Server not accepting new connections at this time.", 
+        http.Error(rw, "Server not accepting new connections at this time.",
                    http.StatusExpectationFailed)
         return
     }
     // ensure that this is a POST request
     if req.Method != "POST" {
-        http.Error(rw,"ERROR in request to /hash. Must be POST", 
+        http.Error(rw,"ERROR in request to /hash. Must be POST",
                    http.StatusBadRequest)
         log.Println("non POST method given to /hash request: " + req.Method)
         return
@@ -75,7 +75,7 @@ func hashpostreq(rw http.ResponseWriter, req *http.Request) {
         fmt.Fprint(rw, pwhash, "\n")
     } else {
         log.Println("ERROR in body of POST request.")
-        http.Error(rw, "expecting body of: \"password=<string>\"", 
+        http.Error(rw, "expecting body of: \"password=<string>\"",
                    http.StatusBadRequest)
         return
     }

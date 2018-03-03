@@ -21,7 +21,7 @@
 //
 //    // retrieve a stored hashed password from the http server by adding
 //    // the key to the "/hash" service like "/hash/42".  Example:
-//    $ curl -X POST http://localhost:8088/hash/{42}
+//    $ curl -X GET http://localhost:8088/hash/42
 //    ZEHhWB65gUlzdVwtDQArEyx-KVLzp_aTaRaPlBzYRIFj6vjFdqEb0Q5B8zVKCZ0vKbZPZklJz0Fd7su2A-gf7Q==
 //
 //    // message to inhibit the server from accepting new password requests
@@ -99,7 +99,7 @@ func hashGetReq(rw http.ResponseWriter, req *http.Request) {
            flusher.Flush()
         }
     } else {
-        http.Error(rw,"ERROR in request to /hash. Must be POST or GET", 
+        http.Error(rw,"ERROR in request to /hash. Must be POST or GET",
                    http.StatusMethodNotAllowed)
         log.Println("non POST method given to /hash request: " + req.Method)
     }
@@ -113,17 +113,17 @@ func hashPostReq(rw http.ResponseWriter, req *http.Request) {
         // see if server is no longer accepting new requests
         mut.Lock()
         done := noMoreFlag
-        mut.Unlock() 
+        mut.Unlock()
         if done {
             log.Println("Server not accepting new requests at this time.")
-            http.Error(rw, "Server not accepting new connections at this time.", 
+            http.Error(rw, "Server not accepting new connections at this time.",
                        http.StatusExpectationFailed)
         } else {
             // process the POST request
             pw := req.Form.Get("password")
             if len(pw) == 0 {
                 log.Println("ERROR -- POST body missing \"password=<string>\".")
-                http.Error(rw, "expecting body of: \"password=<string>\"", 
+                http.Error(rw, "expecting body of: \"password=<string>\"",
                            http.StatusBadRequest)
                 return
             }
@@ -141,7 +141,7 @@ func hashPostReq(rw http.ResponseWriter, req *http.Request) {
             // as per instruction, sleep 5 seconds, generate and store the hashed pw
             time.Sleep(5000 * time.Millisecond)
             hashmap[mapCurIndex] = passhash.HashifyPW(pw)
-            log.Println("clear passwod: " + pw + " key: ", mapCurIndex, 
+            log.Println("clear passwod: " + pw + " key: ", mapCurIndex,
                         "hashed password: " + hashmap[mapCurIndex])
             // decrement outstanding requests
             cntmut.Lock()
@@ -154,8 +154,8 @@ func hashPostReq(rw http.ResponseWriter, req *http.Request) {
                 os.Exit(0)
             }
         }
-    } else { 
-        http.Error(rw,"ERROR in request to /hash. Must be POST", 
+    } else {
+        http.Error(rw,"ERROR in request to /hash. Must be POST",
                    http.StatusMethodNotAllowed)
         log.Println("non POST method given to /hash request: " + req.Method)
     }
@@ -165,7 +165,7 @@ func hashPostReq(rw http.ResponseWriter, req *http.Request) {
 func shutPutReq(rw http.ResponseWriter, req *http.Request) {
     req.ParseForm()
     if req.Method != "PUT" {
-        http.Error(rw, "ERROR in request to /shutdown. Must be PUT", 
+        http.Error(rw, "ERROR in request to /shutdown. Must be PUT",
                    http.StatusMethodNotAllowed)
         log.Println("non PUT method given to /shutdown request: " + req.Method)
         return
@@ -179,14 +179,14 @@ func shutPutReq(rw http.ResponseWriter, req *http.Request) {
     cnt := reqcnt
     cntmut.Unlock()
     if cnt == 0 {
-        http.Error(rw, "Server no longer accepting new requests and exiting.", 
+        http.Error(rw, "Server no longer accepting new requests and exiting.",
                    http.StatusExpectationFailed)
         log.Println("Password server exiting")
         time.Sleep(2000 * time.Millisecond)
         os.Exit(0)
     }
     log.Println("Server not accepting new requests at this time.")
-    http.Error(rw, "Server is now no longer accepting new requests.", 
+    http.Error(rw, "Server is now no longer accepting new requests.",
                http.StatusExpectationFailed)
 }
 
