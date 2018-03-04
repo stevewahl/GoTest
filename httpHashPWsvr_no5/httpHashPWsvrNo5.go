@@ -21,7 +21,7 @@
 //
 //    // retrieve a stored hashed password from the http server by adding
 //    // the key to the "/hash" service like "/hash/42".  Example:
-//    $ curl -X POST http://localhost:8088/hash/{42}
+//    $ curl -X GET http://localhost:8088/hash/42
 //    ZEHhWB65gUlzdVwtDQArEyx-KVLzp_aTaRaPlBzYRIFj6vjFdqEb0Q5B8zVKCZ0vKbZPZklJz0Fd7su2A-gf7Q==
 //
 //    // message to inhibit the server from accepting new password requests

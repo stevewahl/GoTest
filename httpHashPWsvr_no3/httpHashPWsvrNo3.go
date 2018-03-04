@@ -33,8 +33,8 @@ import (
 
 // SHARED DATA BETWEEN FUNCTIONS
 var (
-	mut        sync.Mutex // mutex to safeguard access to nomore flag
-	noMoreFlag bool       // flag if no new messages should be processed
+	mut sync.Mutex    // mutex to safeguard access to nomore flag
+	noMoreFlag bool   // flag if no new messages should be processed
 )
 
 var (
